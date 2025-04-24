@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Auth;
  */
 class CrudUserController extends Controller
 {
+    /**
+     * Maximum number of records per page
+     */
+    private const MAX_RECORDS = 10;
 
     /**
      * Login page
@@ -129,8 +133,10 @@ class CrudUserController extends Controller
      */
     public function listUser()
     {
+
         if(Auth::check()){
-            $users = User::all();
+            $users = User::paginate(self::MAX_RECORDS);
+
             return view('crud_user.list', ['users' => $users]);
         }
 
